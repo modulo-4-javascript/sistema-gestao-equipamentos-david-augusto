@@ -1,14 +1,27 @@
+import { message } from 'antd'
 import { AppLayout } from '../../../../app/layout/AppLayout'
-import { Container } from './styles'
+import { Container} from './styles'
+import {
+  locationSummaryMock
+} from "../../mocks/locations.mock"
+import { SummaryCards } from "../../components/SummaryCards"
+import { PageHeader } from '../../components/PageHeader'
 
 export function LocationsPage() {
+  const [messageApi, contextHolder] = message.useMessage()
+
+  function handleCreateEquipment(){
+    messageApi.info("Criar Local")
+  }
+
   return (
     <AppLayout currentPage="Localizações">
+      {contextHolder}
       <Container>
-        {/* <Title>Localizações</Title>
-        <Description>
-          Esta página simples existe para demonstrar rotas e reaproveitamento do layout.
-        </Description> */}
+        
+        <PageHeader onCreateLocal={handleCreateEquipment}/>
+
+        <SummaryCards summaries={locationSummaryMock} />
       </Container>
     </AppLayout>
   )
