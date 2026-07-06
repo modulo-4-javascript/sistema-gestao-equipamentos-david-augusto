@@ -22,6 +22,8 @@ export function AppRoutes() {
 
       {/* Qualquer rota desconhecida volta para a tela principal para evitar tela em branco. */}
       <Route path="*" element={<Navigate to="/equipment" replace />} />
+
+      {/* <Route path="/locations/:locationId" element={<LocationDetailsPage />} /> */}
     </Routes>
   )
 }
