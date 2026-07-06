@@ -2,7 +2,6 @@ import { axiosApi } from '../../../services/api'
 import type {
   CreateLocationPayload,
   GetLocationEquipmentParams,
-  GetLocationListParams,
   LocationDetails,
   LocationEquipment,
   LocationHistoryItem,
@@ -10,7 +9,17 @@ import type {
   PaginatedResult,
   UpdateLocationPayload,
   UpdateLocationStatusPayload,
+  LocationStatus,
+  LocationType,
 } from '../types/location'
+
+export interface GetLocationListParams {
+  search?: string
+  status?: LocationStatus
+  type?: LocationType
+  page?: number
+  pageSize?: number
+}
 
 // AULA 08: service semipronto para os alunos completarem usando equipmentService como modelo.
 export const locationService = {
