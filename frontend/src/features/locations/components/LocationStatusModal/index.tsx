@@ -1,19 +1,15 @@
-import { Form, Input, Select } from 'antd'
-import { useEffect } from 'react'
+import { StatusModal } from '../../../../shared/components/StatusModal'
+import type { StatusFormValues } from '../../../../shared/components/StatusModal'
 import {
   getLocationStatusLabel,
-  type Location,
+  type LocationDetails,
   type LocationStatus,
 } from '../../types/location'
-import { CurrentStatusText, StatusModal } from './styles'
 
-export interface LocationStatusFormValues {
-  status: LocationStatus
-  note?: string
-}
+export type LocationStatusFormValues = StatusFormValues<LocationStatus>
 
 interface LocationStatusModalProps {
-  Location?: Location
+  location?: LocationDetails
   confirmLoading?: boolean
   open: boolean
   statusOptions: LocationStatus[]
@@ -22,71 +18,26 @@ interface LocationStatusModalProps {
 }
 
 export function LocationStatusModal({
-  Location,
+  location,
   confirmLoading,
   open,
   statusOptions,
   onCancel,
   onSubmit,
 }: LocationStatusModalProps) {
-  const [form] = Form.useForm<LocationStatusFormValues>()
-
-  useEffect(() => {
-    if (open) {
-      form.setFieldsValue({
-        status: Location?.status,
-        note: '',
-      })
-    }
-  }, [Location, form, open])
-
-  function handleSubmit() {
-    form
-      .validateFields()
-      .then((values) => onSubmit(values))
-      .catch(() => undefined)
-  }
-
   return (
     <StatusModal
-      centered
-      destroyOnHidden
-      open={open}
-      title="Alterar status"
-      okText="Salvar"
-      cancelText="Cancelar"
       confirmLoading={confirmLoading}
-      width={480}
-      maskStyle={{
-        backdropFilter: 'blur(2px)',
-        background: 'rgb(0 0 0 / 45%)',
-      }}
+      currentStatus={location?.status}
+      currentStatusPrefix="Situação atual"
+      getStatusLabel={getLocationStatusLabel}
+      notePlaceholder="Ex: local temporariamente indisponível para manutenção."
+      open={open}
+      statusLabel="Nova situação"
+      statusOptions={statusOptions}
+      title="Alterar situação"
       onCancel={onCancel}
-      onOk={handleSubmit}
-    >
-      <Form form={form} layout="vertical">
-        <Form.Item
-          label="Novo status"
-          name="status"
-          rules={[{ required: true, message: 'Selecione o novo status.' }]}
-        >
-          <Select
-            placeholder="Selecione o status..."
-            options={statusOptions.map((status) => ({
-              label: getLocationStatusLabel(status),
-              value: status,
-            }))}
-          />
-        </Form.Item>
-
-        <Form.Item label="Observação" name="note">
-          <Input.TextArea placeholder="Ex: equipamento enviado para manutenção preventiva." />
-        </Form.Item>
-      </Form>
-
-      <CurrentStatusText>
-        Status atual: {Location ? getLocationStatusLabel(Location.status) : '-'}
-      </CurrentStatusText>
-    </StatusModal>
+      onSubmit={onSubmit}
+    />
   )
 }

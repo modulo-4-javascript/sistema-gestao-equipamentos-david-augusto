@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { getRequestErrorMessage } from '../../../shared/http/getRequestErrorMessage'
 import { locationService } from '../services/locationService'
 import type { CreateLocationPayload, LocationDetails } from '../types/location'
-import { getRequestErrorMessage } from '../../../shared/http/getRequestErrorMessage'
 
 interface CreateLocationState {
   isLoading: boolean
@@ -14,7 +14,6 @@ export function useCreateLocation(): CreateLocationState {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  // Envia o payload para o backend; quem chama decide quando recarregar a tela.
   async function create(payload: CreateLocationPayload) {
     setIsLoading(true)
     setErrorMessage('')

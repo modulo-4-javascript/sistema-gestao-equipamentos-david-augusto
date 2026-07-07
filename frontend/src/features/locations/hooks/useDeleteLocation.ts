@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { locationService } from '../services/locationService'
 import { getRequestErrorMessage } from '../../../shared/http/getRequestErrorMessage'
+import { locationService } from '../services/locationService'
 
 interface DeleteLocationState {
   isLoading: boolean
@@ -8,7 +8,7 @@ interface DeleteLocationState {
   remove: (locationId: string) => Promise<void>
 }
 
-// Hook de exclusão: chama o DELETE e controla loading/erro do modal de confirmação.
+// Hook de exclusão: chama DELETE /locations/:locationId e controla o modal.
 export function useDeleteLocation(): DeleteLocationState {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')

@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { getRequestErrorMessage } from '../../../shared/http/getRequestErrorMessage'
 import { locationService } from '../services/locationService'
 import type {
   LocationDetails,
   UpdateLocationStatusPayload,
 } from '../types/location'
-import { getRequestErrorMessage } from '../../../shared/http/getRequestErrorMessage'
 
 interface UpdateLocationStatusState {
   isLoading: boolean
@@ -19,12 +19,11 @@ interface UpdateLocationStatusActionPayload {
   payload: UpdateLocationStatusPayload
 }
 
-// Hook de status: expõe uma função updateStatus para alterar só o status do equipamento.
+// Hook de status: altera apenas ACTIVE/INACTIVE usando PATCH.
 export function useUpdateLocationStatus(): UpdateLocationStatusState {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  // Recebe o ID e o novo status, chama o PATCH do service e controla loading/erro.
   async function updateStatus({
     locationId,
     payload,
